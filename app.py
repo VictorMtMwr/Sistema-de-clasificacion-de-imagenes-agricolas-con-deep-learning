@@ -37,10 +37,15 @@ def preprocess_image(image_bytes):
 @app.route("/predict", methods=["POST"])
 def predict():
     if "file" not in request.files:
-        return jsonify({"error": "No se subió archivo"})
+        return render_template("index.html", prediction="No se subió archivo", image=None)
 
     file = request.files["file"]
     image_bytes = file.read()
+
+    # Guardar imagen para mostrarla en el HTML
+    image_path = os.path.join(UPLOAD_FOLDER, "uploaded_image.jpg")
+    with open(image_path, "wb") as f:
+        f.write(image_bytes)
 
     try:
         input_tensor = preprocess_image(image_bytes)
@@ -48,9 +53,16 @@ def predict():
         idx = int(np.argmax(prediction[0]))
         shape = SHAPES[idx]
         probability = float(prediction[0][idx])
-        return jsonify({"type": shape, "probability": probability})
+        return render_template(
+            "index.html",
+            image=image_path.replace("\\", "/"),
+            clase=shape,
+            probabilidad=f"{probability*100:.2f}",
+            prediction=None
+        )
     except Exception as e:
-        return jsonify({"error": str(e)})
+        traceback.print_exc()
+        return render_template("index.html", image=image_path.replace("\\", "/"), clase=None, probabilidad=None, prediction="Error en la predicción")
 
 if __name__ == "__main__":
     app.run(debug=True)

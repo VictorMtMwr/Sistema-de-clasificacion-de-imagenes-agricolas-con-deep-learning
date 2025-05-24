@@ -23,7 +23,22 @@
           <p><strong>{{ prediction }}</strong></p>
         {% endif %}
         {% if image %}
-          <img src="{{ image }}" alt="Imagen subida">
+          <div style="text-align: center;">
+            <img src="{{ image }}" alt="Imagen subida" style="max-width: 250px; border-radius: 12px; box-shadow: 0 2px 8px #ccc;">
+            {% if clase and probabilidad %}
+              <p style="margin-top: 10px; font-size: 1.2em; font-weight: bold;">
+                La predicción es: <strong>{{ clase }}</strong> con una probabilidad de <strong>{{ probabilidad }}%</strong>
+              </p>
+            {% elif prediction %}
+              <p style="margin-top: 10px; font-size: 1.2em; font-weight: bold;">
+                {{ prediction }}
+              </p>
+            {% endif %}
+          </div>
+        {% elif prediction %}
+          <p style="margin-top: 10px; font-size: 1.2em; font-weight: bold;">
+            {{ prediction }}
+          </p>
         {% endif %}
     </div>
 
