@@ -16,6 +16,13 @@
         </div>
 
         <div id="resultado"></div>
+
+        {% if prediction %}
+          <p><strong>{{ prediction }}</strong></p>
+        {% endif %}
+        {% if image %}
+          <img src="{{ image }}" alt="Imagen subida">
+        {% endif %}
     </div>
 
     <script src="static/js/app.js"></script>
