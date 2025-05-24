@@ -5,9 +5,15 @@ import tensorflow as tf
 import numpy as np
 from PIL import Image
 import io
+from flask import Flask, render_template
+
 
 app = Flask(__name__)
 CORS(app)
+
+@app.route('/')
+def home():
+    return render_template('index.html')
 
 modelo = tf.keras.models.load_model("model/modelo_hojas.h5")
 

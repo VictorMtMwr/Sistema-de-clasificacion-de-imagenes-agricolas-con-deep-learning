@@ -3,80 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Clasificador de Imágenes</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-        }
-        img {
-            max-width: 300px;
-            margin-top: 20px;
-        }
-        #resultado {
-            margin-top: 20px;
-            font-weight: bold;
-        }
-    </style>
+    <link rel="stylesheet" href="static/css/style.css">
 </head>
 <body>
-    <h1>Clasificador de Imágenes</h1>
-    <input type="file" id="imagenInput" accept="image/*"><br>
-    <button onclick="enviarImagen()">Enviar</button>
+    <div class="container">
+        <h1>Clasificador de Imágenes</h1>
+        <input type="file" id="imagenInput" accept="image/*">
+        <button onclick="enviarImagen()">Enviar</button>
 
-    <div id="preview">
-        <img id="imagenPreview" src="" alt="Vista previa">
+        <div id="preview">
+            <img id="imagenPreview" src="" alt="Vista previa">
+        </div>
+
+        <div id="resultado"></div>
     </div>
 
-    <div id="resultado"></div>
-
-    <script>
-        const imagenInput = document.getElementById('imagenInput');
-        const imagenPreview = document.getElementById('imagenPreview');
-        const resultadoDiv = document.getElementById('resultado');
-
-        imagenInput.addEventListener('change', () => {
-            const file = imagenInput.files[0];
-            if (file) {
-                imagenPreview.src = URL.createObjectURL(file);
-            }
-        });
-
-        function enviarImagen() {
-            const file = imagenInput.files[0];
-            if (!file) {
-                alert("Por favor selecciona una imagen.");
-                return;
-            }
-
-            const formData = new FormData();
-            formData.append("file", file);
-
-            fetch("http://127.0.0.1:5000/predict", {
-                method: "POST",
-                body: formData
-            })
-            .then(async res => {
-                const text = await res.text();
-                try {
-                    const data = JSON.parse(text);
-                    if (data.class) {
-                        resultadoDiv.innerHTML = `<b>Predicción:</b> ${data.class} <br>
-                        <b>Tipo de hoja:</b> ${data.type} <br>
-                        <b>Probabilidad:</b> ${(data.probability*100).toFixed(2)}%`;
-                    } else if (data.error) {
-                        resultadoDiv.innerText = "Error: " + data.error;
-                    } else {
-                        resultadoDiv.innerText = "Respuesta inesperada del servidor: " + text;
-                    }
-                } catch (e) {
-                    resultadoDiv.innerText = "Respuesta no JSON: " + text;
-                }
-            })
-            .catch(err => {
-                resultadoDiv.innerText = "Error en la predicción";
-                console.error(err);
-            });
-        }
-    </script>
+    <script src="static/js/app.js"></script>
 </body>
 </html>
