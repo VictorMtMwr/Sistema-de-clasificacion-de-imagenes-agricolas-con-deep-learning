@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Clasificador de Imágenes</title>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Clasificador de Imágenes</h1>
+        <input type="file" id="imagenInput" accept="image/*">
+        <button onclick="enviarImagen()">Enviar</button>
+
+        <div id="preview">
+            <img id="imagenPreview" src="" alt="Vista previa">
+        </div>
+
+        <div id="resultado"></div>
+    </div>
+
+    <script src="static/js/app.js"></script>
+</body>
+</html>

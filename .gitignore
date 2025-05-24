@@ -1,1 +1,8 @@
--e "venv/\n__pycache__/\n*.pyc" 
+venv/
+__pycache__/
+*.pyc
+*.ipynb_checkpoints
+.DS_Store
+*.log
+*.sqlite3
+.env
