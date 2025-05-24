@@ -8,14 +8,23 @@
 <body>
     <div class="container">
         <h1>Clasificador de Imágenes</h1>
-        <input type="file" id="imagenInput" accept="image/*">
-        <button onclick="enviarImagen()">Enviar</button>
+        <form action="/predict" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" id="imagenInput" accept="image/*" required>
+            <button type="submit">Enviar</button>
+        </form>
 
         <div id="preview">
             <img id="imagenPreview" src="" alt="Vista previa">
         </div>
 
         <div id="resultado"></div>
+
+        {% if prediction %}
+          <p><strong>{{ prediction }}</strong></p>
+        {% endif %}
+        {% if image %}
+          <img src="{{ image }}" alt="Imagen subida">
+        {% endif %}
     </div>
 
     <script src="static/js/app.js"></script>
